@@ -95,4 +95,15 @@ public class S7DeviceTest {
         System.out.println(BitUtil.parseBinary(b));
         Assert.assertEquals(b, -2147483648);
     }
+
+    @Test
+    public void readDBD2() throws S7DeviceException {
+        IS7Device device = new S7Device(host);
+        device.connect();
+        int b = device.readDBD(1, 10);
+        device.disconnect();
+        System.out.println(b);
+        System.out.println(BitUtil.parseBinary(b));
+        Assert.assertEquals(b, 2000);
+    }
 }

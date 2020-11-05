@@ -74,7 +74,7 @@ public class S7Device implements IS7Device {
             try {
                 byte[] bs = connector.read(DaveArea.DB, area, 2, byteOffset);
                 short r = (short) ((bs[0] & 0xff) << 8);
-                r = (short) (r | bs[1]);
+                r = (short) (r | (bs[1] & 0xff));
                 return r;
             } catch (Exception e) {
                 throw new S7DeviceException(String.format("ip:%s areaNumber:%d offset:%d 请求失败！", host, area, byteOffset), e);
@@ -92,7 +92,7 @@ public class S7Device implements IS7Device {
                 int r = (bs[0] & 0xff) << 24;
                 r = r | ((bs[1] & 0xff) << 16);
                 r = r | ((bs[2] & 0xff) << 8);
-                r = r | bs[3];
+                r = r | (bs[3] & 0xff);
                 return r;
             } catch (Exception e) {
                 throw new S7DeviceException(String.format("ip:%s areaNumber:%d offset:%d 请求失败！", host, area, byteOffset), e);

@@ -53,13 +53,13 @@ public class S7Address {
             bitOffset = Short.parseShort(_bitOffset);
             this.type = S7Type.BIT;
         } else if (addressCopy.contains("DBB")) {
-            _byteOffset = addressCopy.substring(addressCopy.indexOf("DBB") + 3, addressCopy.lastIndexOf("."));
+            _byteOffset = addressCopy.substring(addressCopy.indexOf("DBB") + 3);
             this.type = S7Type.BYTE;
         } else if (addressCopy.contains("DBW")) {
-            _byteOffset = addressCopy.substring(addressCopy.indexOf("DBW") + 3, addressCopy.lastIndexOf("."));
+            _byteOffset = addressCopy.substring(addressCopy.indexOf("DBW") + 3);
             this.type = S7Type.WORD;
         } else if (addressCopy.contains("DBD")) {
-            _byteOffset = addressCopy.substring(addressCopy.indexOf("DBD") + 3, addressCopy.lastIndexOf("."));
+            _byteOffset = addressCopy.substring(addressCopy.indexOf("DBD") + 3);
             this.type = S7Type.DWORD;
         } else {
             throw new S7DeviceException(String.format("address[%s] can't covert.", address));
