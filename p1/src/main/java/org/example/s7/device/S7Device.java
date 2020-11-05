@@ -94,7 +94,7 @@ public class S7Device implements IS7Device {
     public int readDBD(int area, int byteOffset) throws S7DeviceException {
         if (isConnected) {
             try {
-                byte[] bs = connector.read(DaveArea.DB, area, 2, byteOffset);
+                byte[] bs = connector.read(DaveArea.DB, area, 4, byteOffset);
                 int r = (bs[0] & 0xff) << 24;
                 r = r | ((bs[1] & 0xff) << 16);
                 r = r | ((bs[2] & 0xff) << 8);

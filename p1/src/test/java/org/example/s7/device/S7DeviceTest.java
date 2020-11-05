@@ -71,7 +71,7 @@ public class S7DeviceTest {
         device.disconnect();
         System.out.println(b);
         System.out.println(BitUtil.parseBinary(b));
-        Assert.assertEquals(b, 65533);
+        Assert.assertEquals(b, -3);
     }
 
     @Test
@@ -80,8 +80,9 @@ public class S7DeviceTest {
         device.connect();
         short b = device.readDBW(1, 4);
         device.disconnect();
+        System.out.println(b);
         System.out.println(BitUtil.parseBinary(b));
-        Assert.assertEquals(b, 3);
+        Assert.assertEquals(b, -1);
     }
 
     @Test
@@ -90,11 +91,8 @@ public class S7DeviceTest {
         device.connect();
         int b = device.readDBD(1, 6);
         device.disconnect();
+        System.out.println(b);
         System.out.println(BitUtil.parseBinary(b));
-    }
-
-    @Test
-    public void test1() {
-        System.out.println(BitUtil.parseBinary(65533));
+        Assert.assertEquals(b, -2147483648);
     }
 }
