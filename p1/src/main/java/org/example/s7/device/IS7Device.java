@@ -24,14 +24,6 @@ public interface IS7Device extends IS7DeviceMethods {
     void disconnect() throws S7DeviceException;
 
     /**
-     * 获得s7连接对象
-     * 如果未连接则将启动连接
-     *
-     * @return 本对象主机对应的连接对象
-     */
-    S7Connector getConnector() throws S7DeviceException;
-
-    /**
      * 本对象对应的主机地址
      * @return eg: 192.168.10.101
      */

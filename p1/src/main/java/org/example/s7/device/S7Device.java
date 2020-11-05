@@ -45,12 +45,6 @@ public class S7Device implements IS7Device {
     }
 
     @Override
-    public S7Connector getConnector() throws S7DeviceException {
-        if (!isConnected) connect();
-        return connector;
-    }
-
-    @Override
     public String getHost() {
         return host;
     }
