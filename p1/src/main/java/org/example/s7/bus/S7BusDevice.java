@@ -75,7 +75,7 @@ public class S7BusDevice implements IS7BusDevice {
                 .filter(_cache -> _cache.getAddress().inSameByte(address))
                 .findFirst()
                 .orElse(null);
-        byte b = 0;
+        byte b;
         if (cache != null) {
             b = cache.getValue();
         } else {
