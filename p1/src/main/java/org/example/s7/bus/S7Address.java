@@ -41,32 +41,36 @@ public class S7Address {
     private short bitOffset;
 
     public S7Address(String address) throws S7DeviceException {
-        this.address = address;
+        try {
+            this.address = address;
 
-        String addressCopy = address.toUpperCase();
-        String _db = addressCopy.substring(addressCopy.indexOf("DB") + 2, addressCopy.indexOf("."));
-        String _byteOffset = "";
-        String _bitOffset = "";
-        if (addressCopy.contains("DBX")) {
-            _byteOffset = addressCopy.substring(addressCopy.indexOf("DBX") + 3, addressCopy.lastIndexOf("."));
-            _bitOffset = addressCopy.substring(addressCopy.lastIndexOf(".") + 1);
-            bitOffset = Short.parseShort(_bitOffset);
-            this.type = S7Type.BIT;
-        } else if (addressCopy.contains("DBB")) {
-            _byteOffset = addressCopy.substring(addressCopy.indexOf("DBB") + 3);
-            this.type = S7Type.BYTE;
-        } else if (addressCopy.contains("DBW")) {
-            _byteOffset = addressCopy.substring(addressCopy.indexOf("DBW") + 3);
-            this.type = S7Type.WORD;
-        } else if (addressCopy.contains("DBD")) {
-            _byteOffset = addressCopy.substring(addressCopy.indexOf("DBD") + 3);
-            this.type = S7Type.DWORD;
-        } else {
-            throw new S7DeviceException(String.format("address[%s] can't covert.", address));
+            String addressCopy = address.toUpperCase();
+            String _db = addressCopy.substring(addressCopy.indexOf("DB") + 2, addressCopy.indexOf("."));
+            String _byteOffset = "";
+            String _bitOffset = "";
+            if (addressCopy.contains("DBX")) {
+                _byteOffset = addressCopy.substring(addressCopy.indexOf("DBX") + 3, addressCopy.lastIndexOf("."));
+                _bitOffset = addressCopy.substring(addressCopy.lastIndexOf(".") + 1);
+                bitOffset = Short.parseShort(_bitOffset);
+                this.type = S7Type.BIT;
+            } else if (addressCopy.contains("DBB")) {
+                _byteOffset = addressCopy.substring(addressCopy.indexOf("DBB") + 3);
+                this.type = S7Type.BYTE;
+            } else if (addressCopy.contains("DBW")) {
+                _byteOffset = addressCopy.substring(addressCopy.indexOf("DBW") + 3);
+                this.type = S7Type.WORD;
+            } else if (addressCopy.contains("DBD")) {
+                _byteOffset = addressCopy.substring(addressCopy.indexOf("DBD") + 3);
+                this.type = S7Type.DWORD;
+            } else {
+                throw new S7DeviceException(String.format("address[%s] 数据地址类型超出处理范围", address));
+            }
+
+            db = Integer.parseInt(_db);
+            byteOffset = Integer.parseInt(_byteOffset);
+        } catch (Exception e) {
+            throw new S7DeviceException(String.format("address[%s] 地址解析失败!", address));
         }
-
-        db = Integer.parseInt(_db);
-        byteOffset = Integer.parseInt(_byteOffset);
     }
 
     public String getAddress() {

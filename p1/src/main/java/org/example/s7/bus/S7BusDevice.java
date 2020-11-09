@@ -63,7 +63,7 @@ public class S7BusDevice implements IS7BusDevice {
 
     @Override
     public void clearCache() {
-        cacheList = new ArrayList<>();
+        cacheList.clear();
     }
 
     @Override

@@ -5,14 +5,10 @@ import org.example.s7.bus.S7Address;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 /**
  * Created by fh on 2020/11/9
@@ -45,57 +41,62 @@ public class S7Queryer {
     }
 
     /**
-     * 使用多线程的方式请求plc的数据
+     * 使用线程池的方式请求plc的数据
      *
      * @param supplier 要查询的s7元地址集合
      * @return 查询结果
      */
     public List<PlcModel> query(Supplier<List<S7Meta>> supplier) {
-        List<S7Meta> waitQuery = supplier.get();
-        List<PlcModel> results = null;
+        List<S7Meta> s7Metas = supplier.get();
         holder.start();
-        try {
-            List<Future<PlcModel>> futures = es.invokeAll(waitQuery.stream().map(wq -> (Callable<PlcModel>) () -> {
-                String ip = wq.getHost();
-                String address = wq.getAddress();
-                IS7BusDevice s7 = holder.getBusDevice(ip);
-                S7Address s7Address = new S7Address(address);
-                Object result = null;
-                switch (s7Address.getType()) {
-                    case BIT:
-                        result = s7.readDBX(s7Address);
-                        break;
-                    case BYTE:
-                        result = s7.readDBB(s7Address);
-                        break;
-                    case WORD:
-                        result = s7.readDBW(s7Address);
-                        break;
-                    case DWORD:
-                        result = s7.readDBD(s7Address);
-                        break;
-                    default:
-                        break;
+        List<Callable<PlcModel>> callableList = new ArrayList<>();
+        for (S7Meta s7Meta : s7Metas) {
+            callableList.add(() -> {
+                try {
+                    String ip = s7Meta.getHost();
+                    String address = s7Meta.getAddress();
+                    IS7BusDevice s7 = holder.getBusDevice(ip);
+                    S7Address s7Address = new S7Address(address);
+                    Object result = null;
+                    switch (s7Address.getType()) {
+                        case BIT:
+                            result = s7.readDBX(s7Address);
+                            break;
+                        case BYTE:
+                            result = s7.readDBB(s7Address);
+                            break;
+                        case WORD:
+                            result = s7.readDBW(s7Address);
+                            break;
+                        case DWORD:
+                            result = s7.readDBD(s7Address);
+                            break;
+                        default:
+                            break;
+                    }
+                    PlcModel plcModel = new PlcModel();
+                    plcModel.setPlcMeta(s7Meta);
+                    plcModel.setValue(result);
+                    return plcModel;
+                } catch (Exception e) {
+                    LOGGER.error("子任务执行出错!", e);
+                    PlcModel plcModel = new PlcModel();
+                    plcModel.setPlcMeta(s7Meta);
+                    plcModel.setValue(null);
+                    return plcModel;
                 }
-                PlcModel plcModel = new PlcModel();
-                plcModel.setPlcMeta(wq);
-                plcModel.setValue(result);
-                return plcModel;
-            }).collect(Collectors.toList()));
-            results = futures.stream()
-                    .map(future -> {
-                        PlcModel model = null;
-                        try {
-                            model = future.get();
-                        } catch (Exception e) {
-                            LOGGER.error("future处理出错", e);
-                        }
-                        return model;
-                    })
-                    .filter(Objects::nonNull)
-                    .collect(Collectors.toList());
-        } catch (InterruptedException e) {
-            LOGGER.error("线程池执行出错", e);
+            });
+        }
+        List<PlcModel> results = new ArrayList<>();
+        try {
+            List<Future<PlcModel>> futures = es.invokeAll(callableList);
+            for (Future<PlcModel> future : futures) {
+                PlcModel model = future.get();
+                if (model != null)
+                    results.add(model);
+            }
+        } catch (Exception e) {
+            LOGGER.error("线程池执行出错!", e);
         }
         holder.finish();
         return results;

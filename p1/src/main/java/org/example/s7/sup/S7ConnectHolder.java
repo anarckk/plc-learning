@@ -80,6 +80,7 @@ public class S7ConnectHolder {
                     String ip = entry.getKey();
                     IS7BusDevice s7 = entry.getValue();
                     try {
+                        s7.clearCache();
                         s7.disconnect();
                         LOGGER.info("【{}】连接未使用，已断开", ip);
                     } catch (S7DeviceException e) {
@@ -87,6 +88,7 @@ public class S7ConnectHolder {
                     }
                     holder.remove(ip);
                 });
+        holder.values().forEach(IS7BusDevice::clearCache);
         usedRecord = null;
     }
 }
