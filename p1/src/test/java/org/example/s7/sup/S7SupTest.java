@@ -1,7 +1,5 @@
-package org.example.s7.device;
+package org.example.s7.sup;
 
-import org.example.s7.sup.S7Meta;
-import org.example.s7.sup.S7Queryer;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -16,12 +14,12 @@ public class S7SupTest {
     public void test() {
         List<String> metaList = new ArrayList<>();
         for (int i = 0; i < 22; i++) {
-            for (int j = 0; j < 200; j++) {
+            for (int j = 0; j < 20; j++) {
                 metaList.add(String.format("DB1.DBB%d", i));
             }
         }
 
-        S7Queryer s7Query = new S7Queryer();
+        IS7Queryer s7Query = new S7IpGroupQueryer();
         List<S7Meta> list = metaList.stream().map(address -> {
             S7Meta meta = new S7Meta();
             meta.setHost("192.168.0.190");
@@ -29,7 +27,7 @@ public class S7SupTest {
             return meta;
         }).collect(Collectors.toList());
         long start = System.currentTimeMillis();
-        List<S7Queryer.PlcModel> results = s7Query.query(() -> list);
+        List<PlcModel> results = s7Query.query(list);
         long end = System.currentTimeMillis();
         long time = end - start;
         double avg = (double) time / metaList.size();
