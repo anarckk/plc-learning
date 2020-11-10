@@ -16,6 +16,9 @@ public class S7Device implements IS7Device {
     private S7Connector connector;
 
     public S7Device(String host) {
+        if (host == null) {
+            throw new IllegalArgumentException("host can't be null.");
+        }
         this.host = host;
     }
 

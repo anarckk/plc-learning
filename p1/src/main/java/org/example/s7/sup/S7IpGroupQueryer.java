@@ -53,12 +53,14 @@ public class S7IpGroupQueryer implements IS7Queryer {
         for (Map.Entry<String, List<S7Meta>> entry : set) {
             List<S7Meta> list = entry.getValue();
             callableList.add(() -> {
-                try {
-                    List<PlcModel> plcModelList = new ArrayList<>();
-                    for (S7Meta s7Meta : list) //noinspection DuplicatedCode
-                    {
-                        String ip = s7Meta.getHost();
-                        String address = s7Meta.getAddress();
+                List<PlcModel> plcModelList = new ArrayList<>();
+                for (S7Meta s7Meta : list) //noinspection DuplicatedCode
+                {
+                    String ip = s7Meta.getHost();
+                    String address = s7Meta.getAddress();
+                    PlcModel plcModel = new PlcModel();
+                    plcModel.setPlcMeta(s7Meta);
+                    try {
                         IS7BusDevice s7 = holder.getBusDevice(ip);
                         S7Address s7Address = new S7Address(address);
                         Object result = null;
@@ -78,15 +80,14 @@ public class S7IpGroupQueryer implements IS7Queryer {
                             default:
                                 break;
                         }
-                        PlcModel plcModel = new PlcModel();
-                        plcModel.setPlcMeta(s7Meta);
                         plcModel.setValue(result);
-                        plcModelList.add(plcModel);
+                    } catch (Exception e) {
+                        LOGGER.error("ip: [{}], address: [{}] 查询报错！", ip, address, e);
+                        plcModel.setValue(null);
                     }
-                    return plcModelList;
-                } catch (Exception e) {
-                    return new ArrayList<>();
+                    plcModelList.add(plcModel);
                 }
+                return plcModelList;
             });
         }
         List<PlcModel> results = new ArrayList<>();

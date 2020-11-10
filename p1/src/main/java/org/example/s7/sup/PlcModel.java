@@ -2,6 +2,7 @@ package org.example.s7.sup;
 
 /**
  * Created by fh on 2020/11/9
+ * plc数据模型，存放元数据和此位置上的数据
  */
 public class PlcModel {
     private S7Meta plcMeta;

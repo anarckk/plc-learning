@@ -1,6 +1,7 @@
 package org.example.s7.bus;
 
 import org.example.s7.device.IS7Device;
+import org.example.s7.device.S7Device;
 import org.example.s7.device.S7DeviceException;
 
 import java.util.ArrayList;
@@ -44,6 +45,10 @@ public class S7BusDevice implements IS7BusDevice {
             throw new IllegalArgumentException("s7Device can't be null.");
         }
         this.s7Device = s7Device;
+    }
+
+    public S7BusDevice(String host) {
+        this.s7Device = new S7Device(host);
     }
 
     @Override
