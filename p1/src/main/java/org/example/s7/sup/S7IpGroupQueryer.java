@@ -2,6 +2,7 @@ package org.example.s7.sup;
 
 import org.example.s7.bus.IS7BusDevice;
 import org.example.s7.bus.S7Address;
+import org.example.s7.device.S7DeviceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,6 +11,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 /**
  * Created by fh on 2020/11/9
@@ -51,17 +53,28 @@ public class S7IpGroupQueryer implements IS7Queryer {
         }
         Set<Map.Entry<String, List<S7Meta>>> set = ipMap.entrySet();
         for (Map.Entry<String, List<S7Meta>> entry : set) {
+            String ip = entry.getKey();
             List<S7Meta> list = entry.getValue();
             callableList.add(() -> {
+                IS7BusDevice s7;
+                try {
+                    s7 = holder.getBusDevice(ip);
+                } catch (S7DeviceException e) {
+                    LOGGER.error("ip: [{}] 连接失败！", ip, e);
+                    return list.stream().map(s7Meta -> {
+                        PlcModel plcModel = new PlcModel();
+                        plcModel.setPlcMeta(s7Meta);
+                        plcModel.setValue(null);
+                        return plcModel;
+                    }).collect(Collectors.toList());
+                }
                 List<PlcModel> plcModelList = new ArrayList<>();
                 for (S7Meta s7Meta : list) //noinspection DuplicatedCode
                 {
-                    String ip = s7Meta.getHost();
                     String address = s7Meta.getAddress();
                     PlcModel plcModel = new PlcModel();
                     plcModel.setPlcMeta(s7Meta);
                     try {
-                        IS7BusDevice s7 = holder.getBusDevice(ip);
                         S7Address s7Address = new S7Address(address);
                         Object result = null;
                         switch (s7Address.getType()) {

@@ -15,3 +15,7 @@ s7-bus-p1:1.1.3
 
 s7-bus-p1:1.1.4
 - IS7Queryer 增加 shutdown 方法
+
+s7-bus-p1:1.1.5
+- 优化基于ip分组和线程池的S7IpGroupQueryer，如果ip连接不上，则本次查询中不会再次连接
+
