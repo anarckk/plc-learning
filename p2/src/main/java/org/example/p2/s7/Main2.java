@@ -12,24 +12,34 @@ import java.util.List;
 
 /**
  * Created by fh on 2020/11/10
+ * YY的测试
  */
-public class Main {
-    private static Logger LOGGER = LoggerFactory.getLogger(Main.class);
+public class Main2 {
+    private static Logger LOGGER = LoggerFactory.getLogger(Main2.class);
 
     @SuppressWarnings("DuplicatedCode")
     public static void main(String[] args) {
         // 元配置列表
         List<S7Meta> list = new ArrayList<>();
         S7Meta m11 = new S7Meta();
-        m11.setHost("192.168.0.190");
-        m11.setAddress("DB1.DBB0");
+        m11.setHost("192.168.10.120");
+        m11.setAddress("%DB1.DBX0.1");
         S7Meta m12 = new S7Meta();
-        m12.setHost("192.168.0.190");
-        m12.setAddress("DB1.DBB1");
+        m12.setHost("192.168.10.120");
+        m12.setAddress("%DB1.DBX1.7");
+
+        S7Meta m21 = new S7Meta();
+        m21.setHost("192.168.10.61");
+        m21.setAddress("%DB10.DBX1004.0");
+        S7Meta m22 = new S7Meta();
+        m22.setHost("192.168.10.61");
+        m22.setAddress("%DB10.DBX10041.2");
 
         for (int i = 0; i < 100; i++) {
             list.add(m11);
             list.add(m12);
+            list.add(m21);
+            list.add(m22);
         }
 
         // 查询器
