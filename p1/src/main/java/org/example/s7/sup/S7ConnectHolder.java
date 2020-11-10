@@ -2,8 +2,6 @@ package org.example.s7.sup;
 
 import org.example.s7.bus.IS7BusDevice;
 import org.example.s7.bus.S7BusDevice;
-import org.example.s7.device.IS7Device;
-import org.example.s7.device.S7Device;
 import org.example.s7.device.S7DeviceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,8 +55,7 @@ public class S7ConnectHolder {
                 if (holder.containsKey(ipAddress)) { // 假如是等待线程，那么上一个线程可能就已经将连接建立好了，我这边获取就行了
                     busDevice = holder.get(ipAddress);
                 } else {
-                    IS7Device device = new S7Device(ipAddress);
-                    busDevice = new S7BusDevice(device);
+                    busDevice = new S7BusDevice(ipAddress);
                     busDevice.connect();
                     holder.put(ipAddress, busDevice);
                 }

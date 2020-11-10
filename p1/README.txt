@@ -9,3 +9,7 @@ s7-bus-p1:1.1.1
 
 s7-bus-p1:1.1.2
 - 优化log4j配置
+
+s7-bus-p1:1.1.3
+- 优化S7ConnectHolder
+
