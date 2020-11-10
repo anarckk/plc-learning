@@ -104,4 +104,9 @@ public class S7IpGroupQueryer implements IS7Queryer {
         holder.finish();
         return results;
     }
+
+    @Override
+    public void shutdown() {
+        es.shutdown();
+    }
 }

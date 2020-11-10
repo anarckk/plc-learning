@@ -13,3 +13,5 @@ s7-bus-p1:1.1.2
 s7-bus-p1:1.1.3
 - 优化S7ConnectHolder
 
+s7-bus-p1:1.1.4
+- IS7Queryer 增加 shutdown 方法

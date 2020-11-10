@@ -87,4 +87,9 @@ public class S7Queryer implements IS7Queryer {
         holder.finish();
         return results;
     }
+
+    @Override
+    public void shutdown() {
+        es.shutdown();
+    }
 }

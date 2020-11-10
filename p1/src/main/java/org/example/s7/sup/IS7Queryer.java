@@ -13,4 +13,9 @@ public interface IS7Queryer {
      * @return plc数值集合
      */
     List<PlcModel> query(List<S7Meta> s7MetaList);
+
+    /**
+     * 关闭线程池
+     */
+    void shutdown();
 }
