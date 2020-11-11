@@ -59,7 +59,7 @@ public class Main2 {
         // 查询器
         IS7Queryer s7Query = new S7IpGroupQueryer();
         long start = System.currentTimeMillis();
-        List<PlcModel> results = s7Query.query(list);
+        List<PlcModel<S7Meta>> results = s7Query.query(list);
         long end = System.currentTimeMillis();
         s7Query.shutdown();
         long time = end - start;
