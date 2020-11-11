@@ -7,6 +7,9 @@ package org.example;
 public class BitUtil {
     /**
      * 输出字节的二进制字符串
+     *
+     * @param b 输入
+     * @return 二进制字符串
      */
     public static String parseBinary(byte b) {
         StringBuilder result = new StringBuilder();
@@ -55,7 +58,7 @@ public class BitUtil {
         for (int i = 0; i < s.length(); i++) {
             temp = s.charAt(i);
             sb.append(parseBinary(temp));
-            if (i != s.length() -1) {
+            if (i != s.length() - 1) {
                 sb.append(" ");
             }
         }

@@ -26,7 +26,8 @@ public interface IS7BusDevice {
     void disconnect() throws S7DeviceException;
 
     /**
-     * 获得持有的底层设备对象
+     *
+     * @return 获得持有的底层设备对象
      */
     IS7Device getDevice();
 

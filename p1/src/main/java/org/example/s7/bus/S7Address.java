@@ -95,6 +95,8 @@ public class S7Address {
 
     /**
      * 检查是否和 other 在同一个字节上
+     * @param other 其他地址对象
+     * @return 检查是否和 other 在同一个字节上
      */
     public boolean inSameByte(S7Address other) {
         return db == other.db && byteOffset == other.byteOffset;

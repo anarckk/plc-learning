@@ -30,7 +30,8 @@ public interface IS7Device extends IS7DeviceMethods {
     String getHost();
 
     /**
-     * get is connected.
+     *
+     * @return get is connected.
      */
     boolean isConnected();
 }

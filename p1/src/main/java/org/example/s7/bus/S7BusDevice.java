@@ -3,6 +3,8 @@ package org.example.s7.bus;
 import org.example.s7.device.IS7Device;
 import org.example.s7.device.S7Device;
 import org.example.s7.device.S7DeviceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,8 @@ import java.util.List;
  * Created by fh on 2020/11/5
  */
 public class S7BusDevice implements IS7BusDevice {
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+
     private static class Cache {
         private S7Address address;
         private byte value;
@@ -88,7 +92,9 @@ public class S7BusDevice implements IS7BusDevice {
             Cache cache1 = new Cache(address, b);
             cacheList.add(cache1);
         }
-        return (byte) ((b >> address.getBitOffset()) & 0x01);
+        byte r = (byte) ((b >> address.getBitOffset()) & 0x01);
+        LOGGER.debug("S7BusDevice readDBX[{}]: {}", address, r);
+        return r;
     }
 
     @Override
@@ -96,7 +102,9 @@ public class S7BusDevice implements IS7BusDevice {
         if (!address.getType().equals(S7Address.S7Type.BYTE)) {
             throw new S7DeviceException(String.format("地址【%s】不是 DBB", address.getAddress()));
         }
-        return s7Device.readDBB(address.getDB(), address.getByteOffset());
+        byte r = s7Device.readDBB(address.getDB(), address.getByteOffset());
+        LOGGER.debug("S7BusDevice readDBB[{}]: {}", address, r);
+        return r;
     }
 
     @Override
@@ -104,7 +112,9 @@ public class S7BusDevice implements IS7BusDevice {
         if (!address.getType().equals(S7Address.S7Type.WORD)) {
             throw new S7DeviceException(String.format("地址【%s】不是 DBW", address.getAddress()));
         }
-        return s7Device.readDBW(address.getDB(), address.getByteOffset());
+        short r = s7Device.readDBW(address.getDB(), address.getByteOffset());
+        LOGGER.debug("S7BusDevice readDBW[{}]: {}", address, r);
+        return r;
     }
 
     @Override
@@ -112,6 +122,8 @@ public class S7BusDevice implements IS7BusDevice {
         if (!address.getType().equals(S7Address.S7Type.DWORD)) {
             throw new S7DeviceException(String.format("地址【%s】不是 DBD", address.getAddress()));
         }
-        return s7Device.readDBD(address.getDB(), address.getByteOffset());
+        int r = s7Device.readDBD(address.getDB(), address.getByteOffset());
+        LOGGER.debug("S7BusDevice readDBD[{}]: {}", address, r);
+        return r;
     }
 }
