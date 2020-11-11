@@ -22,10 +22,10 @@ public class Main {
         List<S7Meta> list = new ArrayList<>();
         S7Meta m11 = new S7Meta();
         m11.setHost("192.168.0.190");
-        m11.setAddress("DB1.DBB0");
+        m11.setAddress("DB1.DBD0");
         S7Meta m12 = new S7Meta();
         m12.setHost("192.168.0.190");
-        m12.setAddress("DB1.DBB1");
+        m12.setAddress("DB1.DBD1");
 
         for (int i = 0; i < 100; i++) {
             list.add(m11);
@@ -40,7 +40,7 @@ public class Main {
         s7Query.shutdown();
         long time = end - start;
         double avg = (double) time / list.size();
-        LOGGER.info("{}个目标查询完成 {} ms, 平均: {} ms/个%n", list.size(), (end - start), avg);
+        LOGGER.info("{}个目标查询完成 {} ms, 平均: {} ms/个", list.size(), (end - start), avg);
         results.forEach(r -> LOGGER.info("address: {}, value: {}", r.getPlcMeta().getAddress(), r.getValue()));
     }
 }

@@ -34,27 +34,27 @@ public class S7IpGroupQueryer implements IS7Queryer {
     /**
      * 通过ip分组+线程池轮询的方式
      *
-     * @param s7Metas 要查询的s7元地址集合
+     * @param s7MetaList 要查询的s7元地址集合
      * @return 查询结果
      */
-    public List<PlcModel> query(List<S7Meta> s7Metas) {
-        List<Callable<List<PlcModel>>> callableList = new ArrayList<>();
+    public <T extends S7Meta> List<PlcModel<T>> query(List<T> s7MetaList) {
+        List<Callable<List<PlcModel<T>>>> callableList = new ArrayList<>();
         // 通过ip分组
-        Map<String, List<S7Meta>> ipMap = new HashMap<>();
-        for (S7Meta s7Meta : s7Metas) {
+        Map<String, List<T>> ipMap = new HashMap<>();
+        for (T s7Meta : s7MetaList) {
             String host = s7Meta.getHost();
             if (ipMap.containsKey(host)) {
                 ipMap.get(host).add(s7Meta);
             } else {
-                List<S7Meta> list = new ArrayList<>();
+                List<T> list = new ArrayList<>();
                 list.add(s7Meta);
                 ipMap.put(host, list);
             }
         }
-        Set<Map.Entry<String, List<S7Meta>>> set = ipMap.entrySet();
-        for (Map.Entry<String, List<S7Meta>> entry : set) {
+        Set<Map.Entry<String, List<T>>> set = ipMap.entrySet();
+        for (Map.Entry<String, List<T>> entry : set) {
             String ip = entry.getKey();
-            List<S7Meta> list = entry.getValue();
+            List<T> list = entry.getValue();
             callableList.add(() -> {
                 IS7BusDevice s7;
                 try {
@@ -62,17 +62,17 @@ public class S7IpGroupQueryer implements IS7Queryer {
                 } catch (S7DeviceException e) {
                     LOGGER.error("ip: [{}] 连接失败！", ip, e);
                     return list.stream().map(s7Meta -> {
-                        PlcModel plcModel = new PlcModel();
+                        PlcModel<T> plcModel = new PlcModel<>();
                         plcModel.setPlcMeta(s7Meta);
                         plcModel.setValue(null);
                         return plcModel;
                     }).collect(Collectors.toList());
                 }
-                List<PlcModel> plcModelList = new ArrayList<>();
-                for (S7Meta s7Meta : list) //noinspection DuplicatedCode
+                List<PlcModel<T>> plcModelList = new ArrayList<>();
+                for (T s7Meta : list) //noinspection DuplicatedCode
                 {
                     String address = s7Meta.getAddress();
-                    PlcModel plcModel = new PlcModel();
+                    PlcModel<T> plcModel = new PlcModel<>();
                     plcModel.setPlcMeta(s7Meta);
                     try {
                         S7Address s7Address = new S7Address(address);
@@ -103,12 +103,12 @@ public class S7IpGroupQueryer implements IS7Queryer {
                 return plcModelList;
             });
         }
-        List<PlcModel> results = new ArrayList<>();
+        List<PlcModel<T>> results = new ArrayList<>();
         holder.start();
         try {
-            List<Future<List<PlcModel>>> futures = es.invokeAll(callableList);
-            for (Future<List<PlcModel>> future : futures) {
-                List<PlcModel> model = future.get();
+            List<Future<List<PlcModel<T>>>> futures = es.invokeAll(callableList);
+            for (Future<List<PlcModel<T>>> future : futures) {
+                List<PlcModel<T>> model = future.get();
                 results.addAll(model);
             }
         } catch (Exception e) {

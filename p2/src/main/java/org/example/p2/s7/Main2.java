@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Created by fh on 2020/11/10
- * YY的测试
+ * 2个ip的测试
  */
 public class Main2 {
     private static Logger LOGGER = LoggerFactory.getLogger(Main2.class);
@@ -21,19 +21,33 @@ public class Main2 {
     public static void main(String[] args) {
         // 元配置列表
         List<S7Meta> list = new ArrayList<>();
+//        S7Meta m11 = new S7Meta();
+//        m11.setHost("192.168.10.120");
+//        m11.setAddress("%DB1.DBX0.1");
+//        S7Meta m12 = new S7Meta();
+//        m12.setHost("192.168.10.120");
+//        m12.setAddress("%DB1.DBX1.7");
+//
+//        S7Meta m21 = new S7Meta();
+//        m21.setHost("192.168.10.61");
+//        m21.setAddress("%DB10.DBX1004.0");
+//        S7Meta m22 = new S7Meta();
+//        m22.setHost("192.168.10.61");
+//        m22.setAddress("%DB10.DBX10041.2");
+
         S7Meta m11 = new S7Meta();
-        m11.setHost("192.168.10.120");
-        m11.setAddress("%DB1.DBX0.1");
+        m11.setHost("192.168.0.190");
+        m11.setAddress("DB1.DBB0");
         S7Meta m12 = new S7Meta();
-        m12.setHost("192.168.10.120");
-        m12.setAddress("%DB1.DBX1.7");
+        m12.setHost("192.168.0.190");
+        m12.setAddress("DB1.DBB1");
 
         S7Meta m21 = new S7Meta();
-        m21.setHost("192.168.10.61");
-        m21.setAddress("%DB10.DBX1004.0");
+        m21.setHost("192.168.0.191");
+        m21.setAddress("DB1.DBB0");
         S7Meta m22 = new S7Meta();
-        m22.setHost("192.168.10.61");
-        m22.setAddress("%DB10.DBX10041.2");
+        m22.setHost("192.168.0.191");
+        m22.setAddress("DB1.DBB1");
 
         for (int i = 0; i < 100; i++) {
             list.add(m11);
@@ -50,7 +64,7 @@ public class Main2 {
         s7Query.shutdown();
         long time = end - start;
         double avg = (double) time / list.size();
-        LOGGER.info("{}个目标查询完成 {} ms, 平均: {} ms/个%n", list.size(), (end - start), avg);
+        LOGGER.info("{}个目标查询完成 {} ms, 平均: {} ms/个", list.size(), (end - start), avg);
         results.forEach(r -> LOGGER.info("address: {}, value: {}", r.getPlcMeta().getAddress(), r.getValue()));
     }
 }

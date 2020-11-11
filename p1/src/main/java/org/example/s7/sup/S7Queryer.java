@@ -30,12 +30,12 @@ public class S7Queryer implements IS7Queryer {
     /**
      * 使用线程池的方式请求plc的数据
      *
-     * @param s7Metas 要查询的s7元地址集合
+     * @param s7MetaList 要查询的s7元地址集合
      * @return 查询结果
      */
-    public List<PlcModel> query(List<S7Meta> s7Metas) {
-        List<Callable<PlcModel>> callableList = new ArrayList<>();
-        for (S7Meta s7Meta : s7Metas) {
+    public <T extends S7Meta> List<PlcModel<T>> query(List<T> s7MetaList) {
+        List<Callable<PlcModel<T>>> callableList = new ArrayList<>();
+        for (T s7Meta : s7MetaList) {
             callableList.add(() -> {
                 //noinspection DuplicatedCode
                 try {
@@ -60,25 +60,25 @@ public class S7Queryer implements IS7Queryer {
                         default:
                             break;
                     }
-                    PlcModel plcModel = new PlcModel();
+                    PlcModel<T> plcModel = new PlcModel<>();
                     plcModel.setPlcMeta(s7Meta);
                     plcModel.setValue(result);
                     return plcModel;
                 } catch (Exception e) {
                     LOGGER.error("子任务执行出错!", e);
-                    PlcModel plcModel = new PlcModel();
+                    PlcModel<T> plcModel = new PlcModel<>();
                     plcModel.setPlcMeta(s7Meta);
                     plcModel.setValue(null);
                     return plcModel;
                 }
             });
         }
-        List<PlcModel> results = new ArrayList<>();
+        List<PlcModel<T>> results = new ArrayList<>();
         holder.start();
         try {
-            List<Future<PlcModel>> futures = es.invokeAll(callableList);
-            for (Future<PlcModel> future : futures) {
-                PlcModel model = future.get();
+            List<Future<PlcModel<T>>> futures = es.invokeAll(callableList);
+            for (Future<PlcModel<T>> future : futures) {
+                PlcModel<T> model = future.get();
                 results.add(model);
             }
         } catch (Exception e) {

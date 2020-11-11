@@ -8,11 +8,12 @@ import java.util.List;
 public interface IS7Queryer {
     /**
      * 查询元配置集合对应的plc数值
+     * 如果查询不到，则value为null
      *
      * @param s7MetaList 元地址集合
      * @return plc数值集合
      */
-    List<PlcModel> query(List<S7Meta> s7MetaList);
+    <T extends S7Meta> List<PlcModel<T>> query(List<T> s7MetaList);
 
     /**
      * 关闭线程池
