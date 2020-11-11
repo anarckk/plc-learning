@@ -24,3 +24,7 @@ s7-bus-p1:1.2.0
 
 s7-bus-p1:1.2.1
 - jar打包源码
+
+s7-bus-p1:1.2.2
+- 修改 S7Adress::toString()
+
