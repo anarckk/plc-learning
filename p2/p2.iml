@@ -16,12 +16,14 @@
     <orderEntry type="library" name="Maven: log4j:log4j:1.2.17" level="project" />
     <orderEntry type="library" name="Maven: com.github.s7connector:s7connector:2.1" level="project" />
     <orderEntry type="module-library">
-      <library name="Maven: com.sample.s7:s7-bus-p1:1.2.0">
+      <library name="Maven: com.sample.s7:s7-bus-p1:1.2.1">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/main/resources/jar/s7-bus-p1-1.2.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/src/main/resources/jar/s7-bus-p1-1.2.1.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/src/main/resources/jar/s7-bus-p1-1.2.1-sources.jar!/" />
+        </SOURCES>
       </library>
     </orderEntry>
   </component>

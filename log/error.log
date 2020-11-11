@@ -52,3 +52,57 @@ Caused by: java.net.SocketTimeoutException: connect timed out
 	at java.net.Socket.connect(Socket.java:606)
 	at com.github.s7connector.impl.S7TCPConnection.setupSocket(S7TCPConnection.java:108)
 	... 10 more
+[ERROR] 2020-11-11 10:19:29,809 [pool-1-thread-1][org.example.s7.sup.S7IpGroupQueryer][line:63]  ip: [192.168.0.191] 连接失败！
+org.example.s7.device.S7DeviceException: ip:192.168.0.191 plc连接不上！
+	at org.example.s7.device.S7Device.connect(S7Device.java:34)
+	at org.example.s7.bus.S7BusDevice.connect(S7BusDevice.java:56)
+	at org.example.s7.sup.S7ConnectHolder.getBusDevice(S7ConnectHolder.java:59)
+	at org.example.s7.sup.S7IpGroupQueryer.lambda$query$1(S7IpGroupQueryer.java:61)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: com.github.s7connector.exception.S7Exception: constructor
+	at com.github.s7connector.impl.S7TCPConnection.setupSocket(S7TCPConnection.java:120)
+	at com.github.s7connector.impl.S7TCPConnection.<init>(S7TCPConnection.java:83)
+	at com.github.s7connector.api.factory.S7ConnectorFactory$TCPConnectionBuilder.build(S7ConnectorFactory.java:43)
+	at org.example.s7.device.S7Device.connect(S7Device.java:31)
+	... 7 more
+Caused by: java.net.SocketTimeoutException: connect timed out
+	at java.net.DualStackPlainSocketImpl.waitForConnect(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(DualStackPlainSocketImpl.java:85)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:172)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:606)
+	at com.github.s7connector.impl.S7TCPConnection.setupSocket(S7TCPConnection.java:108)
+	... 10 more
+[ERROR] 2020-11-11 10:20:46,522 [pool-1-thread-1][org.example.s7.sup.S7IpGroupQueryer][line:63]  ip: [192.168.0.191] 连接失败！
+org.example.s7.device.S7DeviceException: ip:192.168.0.191 plc连接不上！
+	at org.example.s7.device.S7Device.connect(S7Device.java:34)
+	at org.example.s7.bus.S7BusDevice.connect(S7BusDevice.java:56)
+	at org.example.s7.sup.S7ConnectHolder.getBusDevice(S7ConnectHolder.java:59)
+	at org.example.s7.sup.S7IpGroupQueryer.lambda$query$1(S7IpGroupQueryer.java:61)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: com.github.s7connector.exception.S7Exception: constructor
+	at com.github.s7connector.impl.S7TCPConnection.setupSocket(S7TCPConnection.java:120)
+	at com.github.s7connector.impl.S7TCPConnection.<init>(S7TCPConnection.java:83)
+	at com.github.s7connector.api.factory.S7ConnectorFactory$TCPConnectionBuilder.build(S7ConnectorFactory.java:43)
+	at org.example.s7.device.S7Device.connect(S7Device.java:31)
+	... 7 more
+Caused by: java.net.SocketTimeoutException: connect timed out
+	at java.net.DualStackPlainSocketImpl.waitForConnect(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(DualStackPlainSocketImpl.java:85)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:172)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:606)
+	at com.github.s7connector.impl.S7TCPConnection.setupSocket(S7TCPConnection.java:108)
+	... 10 more

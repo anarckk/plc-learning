@@ -44,10 +44,10 @@ public class Main2 {
 
         S7Meta m21 = new S7Meta();
         m21.setHost("192.168.0.191");
-        m21.setAddress("DB1.DBB0");
+        m21.setAddress("DB1.DBW0");
         S7Meta m22 = new S7Meta();
         m22.setHost("192.168.0.191");
-        m22.setAddress("DB1.DBB1");
+        m22.setAddress("DB1.DBW2");
 
         for (int i = 0; i < 100; i++) {
             list.add(m11);
@@ -65,6 +65,6 @@ public class Main2 {
         long time = end - start;
         double avg = (double) time / list.size();
         LOGGER.info("{}个目标查询完成 {} ms, 平均: {} ms/个", list.size(), (end - start), avg);
-        results.forEach(r -> LOGGER.info("address: {}, value: {}", r.getPlcMeta().getAddress(), r.getValue()));
+        results.forEach(r -> LOGGER.info("ip: {}, address: {}, value: {}", r.getPlcMeta().getHost(), r.getPlcMeta().getAddress(), r.getValue()));
     }
 }
