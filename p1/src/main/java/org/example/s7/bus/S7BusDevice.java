@@ -103,7 +103,7 @@ public class S7BusDevice implements IS7BusDevice {
             throw new S7DeviceException(String.format("地址【%s】不是 DBB", address.getAddress()));
         }
         byte r = s7Device.readDBB(address.getDB(), address.getByteOffset());
-        LOGGER.debug("S7BusDevice readDBB[{}]: {}", address, r);
+        LOGGER.debug("S7BusDevice readDBB[{}:{}]: {}", s7Device.getHost(), address, r);
         return r;
     }
 
@@ -113,7 +113,7 @@ public class S7BusDevice implements IS7BusDevice {
             throw new S7DeviceException(String.format("地址【%s】不是 DBW", address.getAddress()));
         }
         short r = s7Device.readDBW(address.getDB(), address.getByteOffset());
-        LOGGER.debug("S7BusDevice readDBW[{}]: {}", address, r);
+        LOGGER.debug("S7BusDevice readDBW[{}:{}]: {}", s7Device.getHost(), address, r);
         return r;
     }
 
@@ -123,7 +123,7 @@ public class S7BusDevice implements IS7BusDevice {
             throw new S7DeviceException(String.format("地址【%s】不是 DBD", address.getAddress()));
         }
         int r = s7Device.readDBD(address.getDB(), address.getByteOffset());
-        LOGGER.debug("S7BusDevice readDBD[{}]: {}", address, r);
+        LOGGER.debug("S7BusDevice readDBD[{}:{}]: {}", s7Device.getHost(), address, r);
         return r;
     }
 }
