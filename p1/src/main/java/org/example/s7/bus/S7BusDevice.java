@@ -93,7 +93,7 @@ public class S7BusDevice implements IS7BusDevice {
             cacheList.add(cache1);
         }
         byte r = (byte) ((b >> address.getBitOffset()) & 0x01);
-        LOGGER.debug("S7BusDevice readDBX[{}]: {}", address, r);
+        LOGGER.debug("S7BusDevice readDBX[{}:{}]: {}", s7Device.getHost(), address, r);
         return r;
     }
 
