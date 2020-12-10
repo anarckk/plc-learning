@@ -28,3 +28,7 @@ s7-bus-p1:1.2.1
 s7-bus-p1:1.2.2
 - 修改 S7Adress::toString()
 
+s7-bus-p1:1.2.3
+- 增加DBX的成功时日志，增加一个IP地址输出
+
+
