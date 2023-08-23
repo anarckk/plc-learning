@@ -27,7 +27,7 @@ public class S7SupTest {
             return meta;
         }).collect(Collectors.toList());
         long start = System.currentTimeMillis();
-        List<PlcModel> results = s7Query.query(list);
+        List<PlcModel<S7Meta>> results = s7Query.query(list);
         long end = System.currentTimeMillis();
         long time = end - start;
         double avg = (double) time / metaList.size();
