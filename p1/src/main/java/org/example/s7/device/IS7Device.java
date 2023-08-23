@@ -1,7 +1,5 @@
 package org.example.s7.device;
 
-import com.github.s7connector.api.S7Connector;
-
 /**
  * Created by fh on 2020/11/4
  * siemens s7 connector interface
